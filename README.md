@@ -1,32 +1,35 @@
-# Chat Modifier
+# 채팅창 조절기
 
-Chat Modifier is a Tampermonkey user script that allows users to dynamically adjust the size of the live chat container on a specific streaming platform. This script provides an enhanced user experience by offering flexibility in customizing the chat interface.
+치지직에서 라이브 채팅 컨테이너의 크기를 동적으로 조절할 수 있는 tempermonkey 사용자 스크립트입니다. 이 스크립트는 채팅 인터페이스를 사용자가 원하는 대로 맞춤 설정할 수 있는 유연성을 제공하여 사용자 경험을 향상시킵니다.
 
-## Features
+## 기능
 
-- **Dynamic Size Adjustment:** Enables users to set and modify the width of the live chat container to their preference.
-- **User-friendly Interface:** Integrates a simple input box on the webpage, allowing for quick and easy width adjustments.
-- **Customizable Style:** Designed with a style that is visually harmonious with the platform's default theme, ensuring a seamless user experience.
+- **동적 크기 조정:** 사용자가 라이브 채팅 컨테이너의 너비를 자신의 선호에 따라 설정하고 수정할 수 있습니다.
+- **사용자 친화적 인터페이스:** 웹페이지에 간단한 입력 상자를 통합하여 빠르고 쉬운 너비 조정이 가능합니다.
+- **맞춤형 스타일:** 플랫폼의 기본 테마와 조화롭게 디자인되어 매끄러운 사용자 경험을 보장합니다.
 
-## Installation
+## 설치 방법
 
-1. **Prerequisites:**
-   - Ensure Tampermonkey is installed on your browser. Available for Chrome, Firefox, and other browsers.
+1. **사전 요구 사항:**
+   - 브라우저에 탬퍼몽키가 설치되어 있는지 확인하세요. 크롬, 파이어폭스 및 기타 브라우저용으로 제공됩니다.
 
-2. **Install the Script:**
-   - Navigate to the script URL [Link to your script].
-   - Tampermonkey should recognize the script and prompt for installation. Select `Install`.
+2. **스크립트 설치:**
+   - 브라우저 확장에서 Tempermonkey icon을 선택한 후, 대시보드에 들어가세요.
+   - 오른쪽 상단의 '도구' 탭에 들어가세요
+   - 하단의 Import from URL에 아래 스크립트 URL을 복사 붙여놓기 하세요.
+   - [https://raw.githubusercontent.com/Eodl2/Chat-Modifier/main/ChatModifier/ChatModifier.js].
+   - Tempermonkey는 스크립트를 인식하고 설치를 요청합니다. `설치`를 선택하세요.
 
-## Usage
+## 사용 방법
 
-- Once installed, navigate to the streaming platform.
-- An input box labeled 'Chat Width' will appear, typically at the top right of the page.
-- Enter the desired width (in pixels) for the chat container and press Enter. The chat container's width will adjust accordingly.
+- 설치 후 스트리밍 플랫폼으로 이동하세요.
+- 페이지 상단 오른쪽에 '채팅창 크기'라고 표시된 입력 상자가 나타납니다.
+- 채팅 컨테이너의 원하는 너비(픽셀 단위)를 입력하고 Enter를 누르세요. 채팅 컨테이너의 너비가 그에 따라 조정됩니다.
 
-## Contributing
+## 기여
 
-Contributions to this script are welcome! Feel free to fork the repository, make modifications, and submit pull requests. For any problems or suggestions, please open an issue on the [GitHub issue tracker](<GitHub repository issues link>).
+이 스크립트에 대한 기여를 환영합니다! 리포지토리를 포크하고, 수정을 하고, 풀 리퀘스트를 제출하세요. 문제가 있거나 제안이 있을 경우, [[GitHub 이슈 트래커](<GitHub 리포지토리 이슈 링크>)](https://github.com/Eodl2/Chat-Modifier/issues)에 문제를 등록해주세요.
 
-## License
+## 라이선스
 
-This script is released under the MIT License. For more details, see the [LICENSE](<Link to LICENSE file in your GitHub repository>) file in the GitHub repository.
+이 스크립트는 MIT 라이선스하에 배포됩니다. 자세한 내용은 GitHub 리포지토리의 [라이선스](<GitHub 리포지토리의 LICENSE 파일 링크>) 파일을 참조하세요.
