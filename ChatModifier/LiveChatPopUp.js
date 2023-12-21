@@ -11,6 +11,7 @@
 (function () {
   "use strict";
 
+const isDebugMode = true; // Set to true for debugging, false for normal operation
   // Function to copy styles to the pop-up
   function copyStyles(sourceDoc, targetDoc) {
     Array.from(sourceDoc.styleSheets).forEach((styleSheet) => {
@@ -47,11 +48,55 @@
   let previousChatContent = ""; // Store the previous content outside the function
   let isUserAtBottom = true; // Flag to track if the user is at the bottom of the chat
 
-  function updateChatPopup(popupWindow) {
-    let chatContainer = document.querySelector(
-      ".live_chatting_container__SvtrD"
-    );
-    if (chatContainer) {
+function updateChatPopup(popupWindow) {
+    let chatContainer = document.querySelector('.live_chatting_container__SvtrD');
+    let chatTurnedOff = chatContainer.classList.contains('live_chatting_is_folded__GuPOx');
+
+    if (chatContainer && chatTurnedOff) {
+        let newMessageButton = document.querySelector('.live_chatting_scroll_button_chatting__kqgzN');
+        if (newMessageButton && newMessageButton.innerHTML !== popupWindow.previousChatContent) {
+            let username = newMessageButton.querySelector('.name_text__yQG50').textContent;
+            let messageText = newMessageButton.querySelector('.live_chatting_scroll_message__iPiA2').textContent;
+
+            // Create a new chat message element
+            let messageElement = popupWindow.document.createElement('div');
+            messageElement.className = 'live_chatting_list_item__0SGhw';
+            messageElement.innerHTML = `
+                <div class="live_chatting_message_container__vrI-y">
+                    <button type="button" class="live_chatting_message_wrapper__xpYre" aria-haspopup="true" aria-expanded="false">
+                        <span class="live_chatting_username_container__m1-i5 live_chatting_username_is_message__jvTvP" style="margin-right: 4px;">
+                            <span class="live_chatting_username_nickname__dDbbj">
+                                <span class="">
+                                    <span class="name_text__yQG50">${username}</span>
+                                </span>
+                            </span>
+                        </span>
+                        <span class="live_chatting_message_text__DyleH">${messageText}</span>
+                    </button>
+                </div>
+            `;
+
+            // Append the new message to the popup's chat container
+            let chatListContainer = popupWindow.document.querySelector('.live_chatting_list_wrapper__a5XTV');
+            if (chatListContainer) {
+                chatListContainer.appendChild(messageElement);
+            } else {
+                // If the container doesn't exist, append directly to the body
+                popupWindow.document.body.appendChild(messageElement);
+            }
+
+     if (isUserAtBottom) {
+          // Scroll to the bottom of the popup window
+          popupWindow.scrollTo(0, popupWindow.document.body.scrollHeight);
+        } else {
+          // Display Scroll Down button
+          displayScrollDownButton(popupWindow);
+        }
+
+            popupWindow.previousChatContent = newMessageButton.innerHTML;
+        }
+    }
+    else if (chatContainer) {
       let currentChatContent = chatContainer.innerHTML; // Get current content of the chat
 
       if (currentChatContent !== previousChatContent) {
@@ -71,8 +116,8 @@
           // Scroll to the bottom of the popup window
           popupWindow.scrollTo(0, popupWindow.document.body.scrollHeight);
         } else {
-          // Display 'New Messages' button
-          displayNewMessagesButton(popupWindow);
+          // Display Scroll Down button
+          displayScrollDownButton(popupWindow);
         }
 
         // Update the stored content
@@ -83,7 +128,7 @@
     }
   }
 
-  function displayNewMessagesButton(popupWindow) {
+  function displayScrollDownButton(popupWindow) {
     // Check if the button already exists to avoid duplicates
     let existingButton = popupWindow.document.querySelector(
       ".live_chatting_scroll_button_arrow__tUviD"
@@ -136,9 +181,29 @@
     // Copy styles from the original document to the pop-up
     copyStyles(document, popupWindow.document);
 
-    // Update the pop-up window every 2 seconds (or as needed)
-    setInterval(() => updateChatPopup(popupWindow), 2000);
+   // Only set the automatic update interval if not in debug mode
+        if (!isDebugMode) {
+            setInterval(() => updateChatPopup(popupWindow), 2000);
+        }
 
+ // Add a debug button to the main site to manually update the chat in the popup
+    if (isDebugMode) {
+        let debugButton = document.createElement('button');
+        debugButton.textContent = 'Manually Update Chat in Popup';
+        debugButton.style.position = 'fixed';
+        debugButton.style.bottom = '10px';
+        debugButton.style.right = '100px';
+        debugButton.style.zIndex = '1000';
+        debugButton.onclick = () => {
+            if (popupWindow) {
+                updateChatPopup(popupWindow);
+            } else {
+                alert('Popup is not open');
+            }
+        };
+
+        document.body.appendChild(debugButton);
+    }
     // Add scroll event listener to update isUserAtBottom
     popupWindow.onscroll = function () {
       let scrollTop = popupWindow.scrollY;
@@ -188,6 +253,7 @@
       toolsContainer.appendChild(button);
     }
   }
+    
   // Function to observe DOM changes, adjust margin, and append the button
   function observeDOM() {
     const observer = new MutationObserver((mutations) => {
