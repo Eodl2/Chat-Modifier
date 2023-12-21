@@ -11,7 +11,39 @@
 (function () {
   "use strict";
 
-const isDebugMode = true; // Set to true for debugging, false for normal operation
+const isDebugMode = false; // Set to true for debugging, false for normal operation
+
+    // Function to update the width of the chat container
+  function updateChatWidth() {
+    var width = document.getElementById("chatWidthInput").value;
+    var chatContainer = document.querySelector(
+      ".live_chatting_container__SvtrD"
+    );
+    if (chatContainer) {
+      chatContainer.style.width = width + "px";
+    }
+  }
+
+  // Create an input box for width
+  var inputBox = document.createElement("input");
+  inputBox.id = "chatWidthInput";
+  inputBox.type = "number";
+  inputBox.placeholder = "채팅창 크기(기본값 380)";
+  inputBox.style.position = "fixed";
+  inputBox.style.top = "20px";
+  inputBox.style.right = "200px";
+  inputBox.style.zIndex = "1000";
+  inputBox.style.backgroundColor = "white"; // Better visibility on black background
+  inputBox.style.color = "black";
+  inputBox.style.border = "1px solid gray";
+  inputBox.style.padding = "2px";
+
+  // Add an event listener to the input box
+  inputBox.addEventListener("change", updateChatWidth);
+
+  // Append the input box to the body
+  document.body.appendChild(inputBox);
+
   // Function to copy styles to the pop-up
   function copyStyles(sourceDoc, targetDoc) {
     Array.from(sourceDoc.styleSheets).forEach((styleSheet) => {
@@ -50,7 +82,8 @@ const isDebugMode = true; // Set to true for debugging, false for normal operati
 
 function updateChatPopup(popupWindow) {
     let chatContainer = document.querySelector('.live_chatting_container__SvtrD');
-    let chatTurnedOff = chatContainer.classList.contains('live_chatting_is_folded__GuPOx');
+    let chatTurnedOff = isChatTurnedOff();
+
 
     if (chatContainer && chatTurnedOff) {
         let newMessageButton = document.querySelector('.live_chatting_scroll_button_chatting__kqgzN');
@@ -105,6 +138,9 @@ function updateChatPopup(popupWindow) {
 
         // Clone the live chat container
         let clonedContainer = chatContainer.cloneNode(true);
+          if (clonedContainer) {
+            clonedContainer.style.width = '380px'; // Set to default width or any suitable width
+        }
 
         // Remove the class that hides the chat
         clonedContainer.classList.remove("live_chatting_is_folded__GuPOx");
@@ -173,17 +209,16 @@ function updateChatPopup(popupWindow) {
     let chatContainer = document.querySelector(
       ".live_chatting_container__SvtrD"
     );
-    let width = chatContainer ? `${chatContainer.offsetWidth}px` : "400px";
-
+   
     // Create a new window for the pop-up with the dynamic width
-    let popupWindow = window.open("", "_blank", `width=${width},height=600`);
+    let popupWindow = window.open("", "_blank", `width=400,height=600`);
 
     // Copy styles from the original document to the pop-up
     copyStyles(document, popupWindow.document);
 
    // Only set the automatic update interval if not in debug mode
         if (!isDebugMode) {
-            setInterval(() => updateChatPopup(popupWindow), 2000);
+            setInterval(() => updateChatPopup(popupWindow), 1000);
         }
 
  // Add a debug button to the main site to manually update the chat in the popup
@@ -228,7 +263,7 @@ function updateChatPopup(popupWindow) {
 
     // Create the button element
     let button = document.createElement("button");
-    button.textContent = "Open Chat";
+    button.textContent = "채팅 팝업";
 
     // Apply styling to the button
     button.style.backgroundColor = "rgb(46, 48, 51)";
@@ -253,12 +288,13 @@ function updateChatPopup(popupWindow) {
       toolsContainer.appendChild(button);
     }
   }
-    
+
   // Function to observe DOM changes, adjust margin, and append the button
-  function observeDOM() {
+ function observeDOM() {
     const observer = new MutationObserver((mutations) => {
       let toolsContainerFound = false;
       let sendButtonFound = false;
+      let chatTurnedOff = isChatTurnedOff(); // Function to determine if chat is turned off
 
       for (let mutation of mutations) {
         if (mutation.addedNodes.length) {
@@ -286,13 +322,29 @@ function updateChatPopup(popupWindow) {
             observer.disconnect(); // Stop observing after modifications are done
             break;
           }
+  // Additional logic for handling chat updates when chat is turned off
+          if (chatTurnedOff) {
+            const chatButton = document.querySelector('.live_chatting_scroll_button_chatting__kqgzN');
+            if (chatButton && mutation.target === chatButton) {
+              updateChatPopup(/* your popup window reference here */);
+            }
+          }
+
+          // Disconnect observer if all conditions are met
+          if (toolsContainerFound && sendButtonFound && !chatTurnedOff) {
+            observer.disconnect();
+          }
         }
       }
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-  }
+}
 
+// Function to check if the chat is turned off
+function isChatTurnedOff() {
+    return document.querySelector('.live_chatting_container__SvtrD').classList.contains('live_chatting_is_folded__GuPOx');
+}
   // Start observing the DOM for changes
   observeDOM();
 
