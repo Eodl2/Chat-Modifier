@@ -16,7 +16,7 @@
    - 브라우저 확장에서 Tempermonkey icon을 선택한 후, 대시보드에 들어가세요.
    - 오른쪽 상단의 '도구' 탭에 들어가세요
    - 하단의 Import from URL에 아래 스크립트 URL을 복사 붙여놓기 하세요.
-   - [https://raw.githubusercontent.com/Eodl2/Chat-Modifier/main/ChatModifier/ChatModifier.js].
+   - https://raw.githubusercontent.com/Eodl2/Chat-Modifier/main/ChatModifier/LiveChatPopUp.js
    - Tempermonkey는 스크립트를 인식하고 설치를 요청합니다. `설치`를 선택하세요.
 
 ## 사용 방법
