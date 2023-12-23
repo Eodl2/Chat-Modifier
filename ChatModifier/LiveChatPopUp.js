@@ -31,7 +31,7 @@ const isDebugMode = false; // Set to true for debugging, false for normal operat
   var inputBox = document.createElement("input");
   inputBox.id = "chatWidthInput";
   inputBox.type = "number";
-  inputBox.placeholder = "채팅창 크기(기본값 380)";
+  inputBox.placeholder = "채팅창 크기(기본값 353)";
   inputBox.style.position = "fixed";
   inputBox.style.top = "20px";
   inputBox.style.right = "200px";
@@ -40,6 +40,7 @@ const isDebugMode = false; // Set to true for debugging, false for normal operat
   inputBox.style.color = "black";
   inputBox.style.border = "1px solid gray";
   inputBox.style.padding = "2px";
+  inputBox.style.borderRadius ='8px'
 
   // Add an event listener to the input box
   inputBox.addEventListener("change", updateChatWidth);
@@ -142,7 +143,7 @@ function updateChatPopup(popupWindow) {
         // Clone the live chat container
         let clonedContainer = chatContainer.cloneNode(true);
           if (clonedContainer) {
-            clonedContainer.style.width = '380px'; // Set to default width or any suitable width
+            clonedContainer.style.width = '353px'; // Set to default width or any suitable width
         }
 
         // Remove the class that hides the chat
@@ -214,7 +215,7 @@ function updateChatPopup(popupWindow) {
     );
    
     // Create a new window for the pop-up with the dynamic width
-    let popupWindow = window.open("", "_blank", `width=400,height=600`);
+    let popupWindow = window.open("", "_blank", `width=400,height=800`);
 
     // Copy styles from the original document to the pop-up
     copyStyles(document, popupWindow.document);
@@ -254,7 +255,7 @@ function updateChatPopup(popupWindow) {
   }
 
   // Function to create the 'Open Chat' button and attach it to .live_chatting_input_tools__OPA1R
-  function createOpenChatButton() {
+  function createPopUpButton() {
     // Find the .live_chatting_input_tools__OPA1R element
     let toolsContainer = document.querySelector(
       ".live_chatting_input_tools__OPA1R"
@@ -278,6 +279,19 @@ function updateChatPopup(popupWindow) {
     button.style.borderRadius = "8px";
     button.style.padding = "0px 9px";
     button.style.marginLeft = "auto"; // Add some margin if needed
+
+      // Add a unique class to the button
+  button.className = 'pop-up-button';
+
+  // Inject CSS for hover effects
+  const style = document.createElement('style');
+  style.textContent = `
+    .pop-up-button:hover {
+      background-image: linear-gradient(hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 100%, 0.1));
+      color: rgba(255, 255, 255, 0.6); /* Optional: Change text color on hover */
+    }
+  `;
+  document.head.appendChild(style);
 
     // Add the event listener to open the chat popup
     button.addEventListener("click", showChatPopup);
@@ -306,7 +320,7 @@ function updateChatPopup(popupWindow) {
               ".live_chatting_input_tools__OPA1R"
             );
             if (toolsContainer) {
-              createOpenChatButton(toolsContainer);
+              createPopUpButton(toolsContainer);
               toolsContainerFound = true;
             }
           }
