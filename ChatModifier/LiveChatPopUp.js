@@ -6,7 +6,6 @@
 // @author       때이엠
 // @match        https://chzzk.naver.com/live/*
 // @grant        none
-// @updateURL   https://raw.githubusercontent.com/Eodl2/Chat-Modifier/main/ChatModifier/LiveChatPopUp.js
 // ==/UserScript==
 
 
