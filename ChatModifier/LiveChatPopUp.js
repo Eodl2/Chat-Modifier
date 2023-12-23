@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Live Chat Pop-up
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Open live chat in a pop-up window on new broadcast platforms
 // @author       때이엠
 // @match        https://chzzk.naver.com/live/*
